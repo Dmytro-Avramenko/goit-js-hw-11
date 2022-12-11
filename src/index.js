@@ -2,9 +2,9 @@ import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-import { fetchImages } from './js/fetchImages';
-import { scroll } from './js/scroll';
-import { btnUpOnWindowScroll } from './js/btnUpOnWindowsScroll';
+import { fetchImages } from '../src/js/fetchImages';
+import { scroll } from '../src/js/scroll';
+import { btnUpOnWindowScroll } from '../src/js/btnUpOnWindowsScroll';
 
 const searchForm = document.querySelector('.search-form');
 const gallery = document.querySelector('.gallery');
