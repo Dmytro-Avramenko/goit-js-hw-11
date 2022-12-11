@@ -20,6 +20,7 @@ const lightbox = new SimpleLightbox('.gallery a', {
 let query = '';
 const perPage = 40;
 let totalPages = 0;
+let page = 1;
 
 searchForm.addEventListener('submit', formSubmit);
 
