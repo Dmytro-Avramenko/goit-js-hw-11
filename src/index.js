@@ -1,10 +1,11 @@
 import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
+import axios from 'axios';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-import { fetchImages } from '../src/js/fetchImages';
-import { scroll } from '../src/js/scroll';
-import { btnUpOnWindowScroll } from '../src/js/btnUpOnWindowsScroll';
+// import { fetchImages } from '../src/js/fetchImages';
+// import { scroll } from '../src/js/scroll';
+// import { btnUpOnWindowScroll } from '../src/js/btnUpOnWindowsScroll';
 
 const searchForm = document.querySelector('.search-form');
 const gallery = document.querySelector('.gallery');
@@ -21,6 +22,25 @@ let query = '';
 const perPage = 40;
 let totalPages = 0;
 let page = 1;
+
+axios.defaults.baseURL = 'https://pixabay.com/api/';
+
+async function fetchImages(query) {
+
+    const optionParam = new URLSearchParams({
+        key: '31858963-601eb0bdde05ce64d7de59e68',
+        q: query,
+        image_type: 'photo',
+        orientation: 'horizontal',
+        safesearch: 'true',
+        page: page,
+        per_page: 40,
+    });
+    
+    const { data } = await axios.get(`?${optionParam}`);
+    page += 1;
+    return data;
+};
 
 searchForm.addEventListener('submit', formSubmit);
 
@@ -155,3 +175,29 @@ function сlickToUpBtn() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     btnUp.style.display = 'none';
 };
+
+// Функція що додає кнопку btnUp після зміщення від початкового екрану пошуку
+function btnUpOnWindowScroll() {
+    const scroll = window.pageYOffset;
+    const coords = document.documentElement.clientHeight;
+
+    if (scroll > coords) {
+        btnUp.style.display = 'block';
+    }
+
+    if (scroll < coords) {
+        btnUp.style.display = 'none';
+    }
+}
+
+// Функція автоматичний плавний скрол на дві cardHeight * 2 настпні ${hits} images карток 
+function scroll() { 
+  const { height: cardHeight } = gallery
+    .firstElementChild
+    .getBoundingClientRect();
+  
+    window.scrollBy({
+    top: cardHeight * 2,
+    behavior: "smooth",
+  });
+}
